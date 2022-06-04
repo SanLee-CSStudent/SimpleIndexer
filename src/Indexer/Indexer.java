@@ -2,7 +2,6 @@ package Indexer;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.nio.file.Paths;
@@ -52,17 +51,24 @@ public class Indexer {
 			json.close();
 			
 			JSONObject obj = (JSONObject) JSONValue.parse(page);
+			if(obj == null) {
+				System.out.println("Failed to parse JSON");
+				return null;
+			}
 			String content = (String) obj.get("content");
-			String id = (String) obj.get("id");
+			long id = (long) obj.get("id");
 			String title = (String) obj.get("title");
 			String url = (String) obj.get("url");
-			
+			String idStr = Long.toString(id);
+
 			doc.add(new TextField("content", new StringReader(content)));
 			// title and url will be displayed in the result
 			// so original form will be stored
 			doc.add(new StringField("title", title, Field.Store.YES));
-			doc.add(new StringField("id", id, Field.Store.NO));
+			doc.add(new StringField("id", idStr, Field.Store.YES));
 			doc.add(new StringField("url", url, Field.Store.YES));
+			
+			// extract snippet here and add it as a StringField
 			
 			return doc;
 		} catch (FileNotFoundException e) {
@@ -81,12 +87,14 @@ public class Indexer {
 			System.out.println("Input is not directory!");
 			return;
 		}
+		
 		for(File file : pagesDir.listFiles()) {
 			Document doc = getDocument(file);
 			if(doc == null) {
 				System.out.println("Invalid file");
 				continue;
 			}
+			System.out.println(doc.get("title"));
 			indexer.addDocument(doc);
 		}
 		
