@@ -20,7 +20,7 @@ import org.apache.lucene.store.FSDirectory;
 import Application.controller.Article;
 
 public class Searcher {
-	final int MAX_PAGES = 100;
+	final int MAX_PAGES = 10;
 	
 	IndexSearcher initializeIndexSearcher(String d) throws IOException {
 		IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get(d)));
