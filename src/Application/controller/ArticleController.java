@@ -9,11 +9,12 @@ import org.springframework.web.bind.annotation.*;
 import Application.search.Searcher;
 
 @RestController
+@CrossOrigin("*")
 public class ArticleController {
 
 	@RequestMapping("/")
 	public String index() {
-		return "Greetings from Spring Boot!";
+		return "Hello World";
 	}
 	
 	@GetMapping("/search")
