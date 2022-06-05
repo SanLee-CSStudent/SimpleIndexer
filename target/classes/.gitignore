@@ -1,7 +1,6 @@
-/index/
 /pages/
-/Controller/
+/Application/
 /Indexer/
-/Runner/
 /Searcher/
+/main/
 /module-info.class
